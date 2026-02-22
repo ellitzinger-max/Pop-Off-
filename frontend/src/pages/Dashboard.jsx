@@ -124,14 +124,42 @@ export default function Dashboard() {
             </h1>
             <p className="text-muted-foreground text-lg">Join conversations that matter to you</p>
           </div>
-          <Button
-            onClick={() => navigate('/create-topic')}
-            className="btn-primary rounded-full px-6"
-            data-testid="create-topic-cta-btn"
-          >
-            <Plus className="mr-2 h-5 w-5" />
-            Create Topic
-          </Button>
+          <div className="flex items-center gap-3">
+            {adConfig.show_ads && (
+              <Button
+                variant="outline"
+                onClick={() => setShowRewardAd(true)}
+                className="rounded-full"
+                data-testid="watch-ad-btn"
+              >
+                <Star className="mr-2 h-4 w-4 text-yellow-500" />
+                Earn Coins ({adConfig.coins || 0})
+              </Button>
+            )}
+            <Button
+              onClick={() => navigate('/create-topic')}
+              className="btn-primary rounded-full px-6"
+              data-testid="create-topic-cta-btn"
+            >
+              <Plus className="mr-2 h-5 w-5" />
+              Create Topic
+            </Button>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mb-6">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search topics..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 rounded-full"
+              data-testid="search-topics-input"
+            />
+          </div>
         </div>
 
         {/* Category Filters */}
