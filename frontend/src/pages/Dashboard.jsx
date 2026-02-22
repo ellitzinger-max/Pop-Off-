@@ -5,9 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Users, Clock, Plus } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Users, Clock, Plus, Rocket, Search, TrendingUp, Star } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { BoostModal } from '@/components/BoostModal';
+import { SocialShare } from '@/components/SocialShare';
+import { NativeAd } from '@/components/NativeAd';
+import { RewardAdModal } from '@/components/RewardAdModal';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -27,19 +32,35 @@ export default function Dashboard() {
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [boostModalTopic, setBoostModalTopic] = useState(null);
+  const [showRewardAd, setShowRewardAd] = useState(false);
+  const [adConfig, setAdConfig] = useState({ show_ads: true, coins: 0 });
 
   useEffect(() => {
     fetchUser();
     fetchTopics();
+    fetchAdConfig();
   }, []);
 
   useEffect(() => {
-    if (selectedCategory === 'all') {
-      setFilteredTopics(topics);
-    } else {
-      setFilteredTopics(topics.filter(t => t.category === selectedCategory));
+    let filtered = topics;
+    
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(t => t.category === selectedCategory);
     }
-  }, [selectedCategory, topics]);
+    
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(t => 
+        t.title.toLowerCase().includes(query) ||
+        t.description.toLowerCase().includes(query) ||
+        t.creator_name?.toLowerCase().includes(query)
+      );
+    }
+    
+    setFilteredTopics(filtered);
+  }, [selectedCategory, topics, searchQuery]);
 
   const fetchUser = async () => {
     try {
@@ -60,6 +81,26 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchAdConfig = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/ads/config`, { withCredentials: true });
+      setAdConfig(response.data);
+    } catch (error) {
+      console.error('Failed to fetch ad config:', error);
+    }
+  };
+
+  const handleBoostClick = (e, topic) => {
+    e.stopPropagation();
+    setBoostModalTopic(topic);
+  };
+
+  const handleBoostSuccess = () => {
+    setBoostModalTopic(null);
+    fetchTopics();
+    toast.success('Topic boosted successfully!');
   };
 
   const getCategoryColor = (category) => {
