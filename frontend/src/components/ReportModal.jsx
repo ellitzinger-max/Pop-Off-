@@ -70,7 +70,7 @@ export const ReportModal = ({ reportedUserId, reportedUserName, onClose }) => {
             Report {reportedUserName}
           </DialogTitle>
           <DialogDescription>
-            Help us keep Pop Off safe. Reports are reviewed by AI and our team.
+            Help us keep Pop Off! safe. Reports are reviewed by AI and our team.
           </DialogDescription>
         </DialogHeader>
         

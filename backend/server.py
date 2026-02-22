@@ -1509,7 +1509,7 @@ async def get_share_content(content_type: str, content_id: str):
         share_url = f"https://popoff.app/room/{content_id}"
         
         return {
-            "title": f"Join me on Pop Off: {topic['title']}",
+            "title": f"Join me on Pop Off!: {topic['title']}",
             "description": topic['description'],
             "url": share_url,
             "hashtags": ["PopOff", "VideoChat", topic['category'].replace("-", "")],
