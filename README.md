@@ -81,7 +81,7 @@ sudo supervisorctl restart backend frontend
 ```
 
 4. **Access the App**
-Open https://vibe-tribe-chat.preview.emergentagent.com
+Open https://interest-rooms.preview.emergentagent.com
 
 ## 📚 Documentation
 

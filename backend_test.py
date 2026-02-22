@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 class PopOffAPITester:
-    def __init__(self, base_url="https://vibe-tribe-chat.preview.emergentagent.com"):
+    def __init__(self, base_url="https://interest-rooms.preview.emergentagent.com"):
         self.base_url = base_url
         self.session = requests.Session()  # Use session to handle cookies
         self.session_token = None

@@ -66,7 +66,7 @@ AGORA_APP_CERTIFICATE="x1y2z3a4b5c6d7e8f9g0h1i2j3k4l5m6"
 
 Frontend `.env`:
 ```env
-REACT_APP_BACKEND_URL=https://vibe-tribe-chat.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://interest-rooms.preview.emergentagent.com
 WDS_SOCKET_PORT=443
 ENABLE_HEALTH_CHECK=false
 REACT_APP_AGORA_APP_ID="a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
@@ -82,7 +82,7 @@ sudo supervisorctl restart backend frontend
 
 ## Step 5: Test Video Chat
 
-1. Go to your app: https://vibe-tribe-chat.preview.emergentagent.com
+1. Go to your app: https://interest-rooms.preview.emergentagent.com
 2. Sign up or log in
 3. Create a new topic or join an existing one
 4. Click "Join Video Chat"
