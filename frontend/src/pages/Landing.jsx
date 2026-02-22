@@ -50,8 +50,9 @@ export default function Landing() {
         </div>
 
         {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-20 left-10 w-20 h-20 bg-violet-500/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-pink-500/20 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-yellow-400/20 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
       </section>
 
       {/* Features Section */}
