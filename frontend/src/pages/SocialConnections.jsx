@@ -244,8 +244,8 @@ export default function SocialConnections() {
           })}
         </div>
 
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-800">
+        <div className="mt-6 bg-violet-50 border border-violet-200 rounded-lg p-4">
+          <p className="text-sm text-violet-800">
             <strong>🔒 Privacy Note:</strong> We only store your username for display purposes. 
             We don't access your account data or post without your permission. You control when to share!
           </p>
