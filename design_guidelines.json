@@ -1,0 +1,164 @@
+{
+  "typography": {
+    "headings": {
+      "family": "Outfit, sans-serif",
+      "weights": [600, 700, 800],
+      "usage": "Use for all H1-H6 headings. Tight tracking (-0.02em to -0.04em) for large text."
+    },
+    "body": {
+      "family": "Plus Jakarta Sans, sans-serif",
+      "weights": [400, 500, 600],
+      "usage": "Use for paragraphs, UI elements, inputs, and labels. Good legibility at small sizes."
+    },
+    "scale": {
+      "h1": "text-4xl md:text-6xl font-extrabold tracking-tight",
+      "h2": "text-3xl md:text-4xl font-bold tracking-tight",
+      "h3": "text-2xl font-bold",
+      "body-lg": "text-lg leading-relaxed",
+      "body": "text-base leading-relaxed",
+      "caption": "text-sm text-muted-foreground font-medium"
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": "#8B5CF6",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#EC4899",
+      "secondary_foreground": "#FFFFFF",
+      "accent": "#FBBF24",
+      "accent_foreground": "#1C1917",
+      "background": "#FAFAF9",
+      "foreground": "#1C1917",
+      "muted": "#F5F5F4",
+      "muted_foreground": "#78716C",
+      "card": "#FFFFFF",
+      "card_foreground": "#1C1917",
+      "border": "#E7E5E4",
+      "input": "#E7E5E4",
+      "ring": "#8B5CF6"
+    },
+    "dark_mode": {
+      "background": "#1E1B4B",
+      "foreground": "#F5F3FF",
+      "card": "#2E2A5B",
+      "border": "#4338CA"
+    },
+    "gradients": {
+      "hero_bg": "bg-gradient-to-br from-violet-500 via-fuchsia-500 to-amber-400",
+      "glass": "bg-white/70 backdrop-blur-xl border border-white/20",
+      "dark_glass": "bg-black/60 backdrop-blur-xl border border-white/10"
+    },
+    "functional": {
+      "success": "#10B981",
+      "warning": "#F59E0B",
+      "error": "#EF4444",
+      "info": "#3B82F6"
+    }
+  },
+  "visual_enhancers": {
+    "shadows": {
+      "soft": "shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)]",
+      "glow": "shadow-[0_0_15px_rgba(139,92,246,0.5)]",
+      "card_hover": "hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)]"
+    },
+    "borders": {
+      "radius": "rounded-2xl",
+      "subtle": "border border-black/5"
+    },
+    "glassmorphism": {
+      "default": "bg-white/60 backdrop-blur-lg border border-white/40 shadow-sm",
+      "dark": "bg-slate-900/60 backdrop-blur-lg border border-white/10 shadow-sm"
+    }
+  },
+  "component_name": {
+    "button": "Button (Pill shaped, vibrant)",
+    "card": "Card (Clean, minimal border, heavy hover lift)",
+    "input": "Input (Large text, soft border)",
+    "dialog": "Modal (Glass backdrop, bounce animation)",
+    "badge": "Badge (Soft pastel background, bold text)"
+  },
+  "grids": {
+    "bento": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]",
+    "masonry": "columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"
+  },
+  "layouts": {
+    "container": "container mx-auto px-4 md:px-6 max-w-7xl",
+    "section": "py-16 md:py-24",
+    "hero": "min-h-[80vh] flex items-center justify-center relative overflow-hidden"
+  },
+  "motion": {
+    "transition": "transition-all duration-300 ease-out",
+    "hover_lift": "hover:-translate-y-1 hover:shadow-lg",
+    "entrance": "animate-in fade-in slide-in-from-bottom-4 duration-700",
+    "stagger_delay": "delay-[100ms]",
+    "scroll_reveal": "opacity-0 intersect:opacity-100 transition-opacity duration-700"
+  },
+  "accessibility": {
+    "focus_ring": "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
+    "text_contrast": "Ensure small text is at least 4.5:1 contrast against background.",
+    "reduced_motion": "motion-reduce:transition-none motion-reduce:animate-none"
+  },
+  "media": {
+    "image_radius": "rounded-2xl",
+    "aspect_ratios": {
+      "portrait": "aspect-[3/4]",
+      "landscape": "aspect-[16/9]",
+      "square": "aspect-square"
+    }
+  },
+  "image_urls": [
+    {
+      "category": "hero",
+      "url": "https://images.unsplash.com/photo-1758525225988-d34bcbcc00a0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwZnJpZW5kcyUyMHZpZGVvJTIwY2hhdCUyMGxhdWdoaW5nJTIwaGFwcHl8ZW58MHx8fHwxNzcxMzA4NTQ5fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Two diverse friends talking and laughing (Hero Image)",
+      "usage": "Use as main hero image or background with overlay"
+    },
+    {
+      "category": "abstract",
+      "url": "https://images.unsplash.com/photo-1767482712477-ae5853a10133?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMGNvbG9yZnVsJTIwZ2VvbWV0cmljJTIwc2hhcGVzJTIwM2QlMjB2aWJyYW50fGVufDB8fHx8MTc3MTMwODU1MHww&ixlib=rb-4.1.0&q=85",
+      "description": "Vibrant abstract iridescent shapes",
+      "usage": "Use for Politics/News category or general decorative backgrounds"
+    },
+    {
+      "category": "nature",
+      "url": "https://images.unsplash.com/photo-1762687567119-ed0bcfcb5bc0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwzfHxwZWFjZWZ1bCUyMG5hdHVyZSUyMGxhbmRzY2FwZSUyMGNhbG0lMjBhZXN0aGV0aWNzfGVufDB8fHx8MTc3MTMwODU1MHww&ixlib=rb-4.1.0&q=85",
+      "description": "Calm water and nature",
+      "usage": "Use for Mental Health/Wellness category"
+    },
+    {
+      "category": "entertainment",
+      "url": "https://images.unsplash.com/photo-1557094181-dbccc74c8a25?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwxfHxtb3ZpZSUyMGNpbmVtYSUyMG5lb24lMjBwb3Bjb3JuJTIwYWVzdGhldGljfGVufDB8fHx8MTc3MTMwODU1MXww&ixlib=rb-4.1.0&q=85",
+      "description": "Red neon cinema signage",
+      "usage": "Use for Movies/TV Series category"
+    }
+  ],
+  "component_path": "/app/frontend/src/components/ui",
+  "instructions_to_main_agent": [
+    "Install 'lucide-react', 'framer-motion', 'clsx', 'tailwind-merge' if not present.",
+    "Use 'Outfit' font for all headings (H1-H6) and 'Plus Jakarta Sans' for body text. Add these via Google Fonts in index.html or CSS import.",
+    "Implement a 'Bento Grid' layout for the Topic Discovery page.",
+    "Ensure all interactive elements have a 'hover-lift' effect (translate-y-1).",
+    "Use glassmorphism (backdrop-blur) for the Video Chat controls overlay.",
+    "Strictly follow the color palette. Do not use default Tailwind colors like 'blue-500' unless mapped to the design system.",
+    "Use 'sonner' for all toast notifications.",
+    "Add 'data-testid' to all buttons, inputs, and links for testing.",
+    "Mobile Responsiveness: Ensure video chat interface collapses gracefully on mobile (stack participants, move controls to bottom sheet).",
+    "Disclaimer: Must be prominent, high-contrast, likely yellow/amber background with dark text."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this: make creative, distinctive frontends.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition. Eg: 'transition: all'. This results in breaking transforms. Always add transitions for specific interactive elements.",
+    "You MUST NOT center align the app container. This disrupts the human natural reading flow of text.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style.",
+    "NEVER use AI assistant Emoji characters like 🤖🧠 for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Component Reuse: Prioritize using pre-existing components from src/components/ui.",
+    "Export Conventions: Components MUST use named exports (export const ComponentName = ...). Pages MUST use default exports.",
+    "Toasts: Use 'sonner' for toasts."
+  ]
+}
