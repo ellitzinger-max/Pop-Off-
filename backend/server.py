@@ -1176,6 +1176,55 @@ async def stripe_webhook(request: Request):
     body = await request.body()
     signature = request.headers.get("Stripe-Signature")
     
+    stripe_api_key = os.getenv("STRIPE_API_KEY")
+    webhook_url = f"{str(request.base_url)}api/webhook/stripe"
+    stripe_checkout = StripeCheckout(api_key=stripe_api_key, webhook_url=webhook_url)
+    
+    try:
+        webhook_response = await stripe_checkout.handle_webhook(body, signature)
+        
+        if webhook_response.payment_status == "paid":
+            session_id = webhook_response.session_id
+            payment = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+            
+            if payment and payment["payment_status"] != "completed":
+                # Handle topic boost payment
+                if payment.get("payment_type") == "premium":
+                    plan = PREMIUM_PLANS[payment["plan_id"]]
+                    premium_until = datetime.now(timezone.utc) + timedelta(days=plan["duration_days"])
+                    
+                    await db.users.update_one(
+                        {"user_id": payment["user_id"]},
+                        {"$set": {"is_premium": True, "premium_until": premium_until}}
+                    )
+                else:
+                    # Topic boost
+                    package = BOOST_PACKAGES[payment["package_id"]]
+                    boost_until = datetime.now(timezone.utc) + timedelta(hours=package["duration_hours"])
+                    
+                    update_fields = {
+                        "is_boosted": True,
+                        "boosted_until": boost_until,
+                        "boost_type": payment["package_id"]
+                    }
+                    
+                    if payment["package_id"] == "featured":
+                        update_fields["is_featured"] = True
+                    
+                    await db.topics.update_one(
+                        {"topic_id": payment["topic_id"]},
+                        {"$set": update_fields}
+                    )
+                
+                await db.payment_transactions.update_one(
+                    {"session_id": session_id},
+                    {"$set": {"payment_status": "completed", "completed_at": datetime.now(timezone.utc)}}
+                )
+        
+        return {"status": "success"}
+    except Exception as e:
+        logger.error("Webhook error", error=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
 
 @api_router.get("/ads/config")
 async def get_ad_config(request: Request):
