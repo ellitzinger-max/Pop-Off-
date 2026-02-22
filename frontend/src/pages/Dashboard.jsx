@@ -203,15 +203,31 @@ export default function Dashboard() {
             {filteredTopics.map((topic, index) => (
               <Card
                 key={topic.topic_id}
-                className="hover-lift cursor-pointer glass-effect border-2 hover:border-primary/50 transition-all"
+                className={`hover-lift cursor-pointer glass-effect border-2 transition-all ${
+                  topic.is_boosted ? 'border-orange-400 shadow-orange-100' : 'hover:border-primary/50'
+                }`}
                 onClick={() => navigate(`/room/${topic.topic_id}`)}
                 data-testid={`topic-card-${index}`}
               >
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
-                    <Badge className={`${getCategoryColor(topic.category)} text-white rounded-full px-3`}>
-                      {getCategoryLabel(topic.category)}
-                    </Badge>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Badge className={`${getCategoryColor(topic.category)} text-white rounded-full px-3`}>
+                        {getCategoryLabel(topic.category)}
+                      </Badge>
+                      {topic.is_boosted && (
+                        <Badge className="bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-full px-3" data-testid={`boosted-badge-${index}`}>
+                          <TrendingUp className="w-3 h-3 mr-1" />
+                          Boosted
+                        </Badge>
+                      )}
+                      {topic.is_featured && (
+                        <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full px-3">
+                          <Star className="w-3 h-3 mr-1" />
+                          Featured
+                        </Badge>
+                      )}
+                    </div>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Users className="w-4 h-4 mr-1" />
                       <span>{topic.current_participants}/{topic.max_participants}</span>
@@ -221,7 +237,7 @@ export default function Dashboard() {
                   <CardDescription className="line-clamp-2">{topic.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
                     <div className="flex items-center">
                       <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold mr-2">
                         {topic.creator_name?.[0]?.toUpperCase()}
@@ -233,9 +249,35 @@ export default function Dashboard() {
                       <span>{new Date(topic.created_at).toLocaleDateString()}</span>
                     </div>
                   </div>
+                  
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-2 pt-2 border-t" onClick={(e) => e.stopPropagation()}>
+                    <SocialShare 
+                      contentType="topic" 
+                      contentId={topic.topic_id} 
+                      title={topic.title}
+                    />
+                    {user && topic.creator_id === user.user_id && !topic.is_boosted && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={(e) => handleBoostClick(e, topic)}
+                        className="text-orange-500 border-orange-300 hover:bg-orange-50"
+                        data-testid={`boost-topic-btn-${index}`}
+                      >
+                        <Rocket className="h-4 w-4 mr-1" />
+                        Boost
+                      </Button>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             ))}
+            
+            {/* Native Ad placement after every 6 topics */}
+            {adConfig.show_ads && filteredTopics.length > 0 && (
+              <NativeAd />
+            )}
           </div>
         )}
       </main>
