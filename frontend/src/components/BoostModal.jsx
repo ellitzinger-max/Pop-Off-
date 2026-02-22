@@ -64,9 +64,9 @@ export const BoostModal = ({ topicId, topicTitle, onClose, onSuccess }) => {
   };
 
   const getPackageColor = (packageId) => {
-    if (packageId === 'featured') return 'from-amber-400 to-orange-500';
-    if (packageId === '7day') return 'from-red-500 to-orange-500';
-    return 'from-orange-400 to-red-400';
+    if (packageId === 'featured') return 'from-yellow-400 to-pink-500';
+    if (packageId === '7day') return 'from-pink-500 to-violet-500';
+    return 'from-violet-400 to-pink-400';
   };
 
   return (
