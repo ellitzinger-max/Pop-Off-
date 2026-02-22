@@ -127,6 +127,10 @@ class User(BaseModel):
     is_premium: bool = False
     premium_until: Optional[datetime] = None
     connected_socials: Dict[str, Dict] = {}
+    current_streak: int = 0
+    longest_streak: int = 0
+    last_active_date: Optional[str] = None
+    badges: List[str] = []
     suspension_count: int = 0
     is_suspended: bool = False
     suspended_until: Optional[datetime] = None
