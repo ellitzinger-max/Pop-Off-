@@ -204,7 +204,7 @@ export default function Dashboard() {
               <Card
                 key={topic.topic_id}
                 className={`hover-lift cursor-pointer glass-effect border-2 transition-all ${
-                  topic.is_boosted ? 'border-orange-400 shadow-orange-100' : 'hover:border-primary/50'
+                  topic.is_boosted ? 'border-pink-400 shadow-pink-100' : 'hover:border-primary/50'
                 }`}
                 onClick={() => navigate(`/room/${topic.topic_id}`)}
                 data-testid={`topic-card-${index}`}
@@ -216,13 +216,13 @@ export default function Dashboard() {
                         {getCategoryLabel(topic.category)}
                       </Badge>
                       {topic.is_boosted && (
-                        <Badge className="bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-full px-3" data-testid={`boosted-badge-${index}`}>
+                        <Badge className="bg-gradient-to-r from-pink-400 to-violet-500 text-white rounded-full px-3" data-testid={`boosted-badge-${index}`}>
                           <TrendingUp className="w-3 h-3 mr-1" />
                           Boosted
                         </Badge>
                       )}
                       {topic.is_featured && (
-                        <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full px-3">
+                        <Badge className="bg-gradient-to-r from-yellow-400 to-pink-500 text-white rounded-full px-3">
                           <Star className="w-3 h-3 mr-1" />
                           Featured
                         </Badge>
@@ -262,7 +262,7 @@ export default function Dashboard() {
                         variant="outline"
                         size="sm"
                         onClick={(e) => handleBoostClick(e, topic)}
-                        className="text-orange-500 border-orange-300 hover:bg-orange-50"
+                        className="text-pink-500 border-pink-300 hover:bg-pink-50"
                         data-testid={`boost-topic-btn-${index}`}
                       >
                         <Rocket className="h-4 w-4 mr-1" />
