@@ -62,7 +62,7 @@ export default function PremiumSuccess() {
                 <Loader2 className="w-10 h-10 text-primary animate-spin" />
               </div>
             ) : status === 'success' ? (
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-4 animate-bounce">
+              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-pink-400 to-violet-500 flex items-center justify-center mb-4 animate-bounce">
                 <Crown className="w-10 h-10 text-white" />
               </div>
             ) : (
@@ -83,13 +83,13 @@ export default function PremiumSuccess() {
           <CardContent className="pt-6">
             {status === 'success' && (
               <div className="space-y-4">
-                <div className="bg-gradient-to-r from-amber-100 to-orange-100 rounded-xl p-4 space-y-3">
+                <div className="bg-gradient-to-r from-pink-100 to-violet-100 rounded-xl p-4 space-y-3">
                   <div className="flex items-center justify-center space-x-2">
-                    <Crown className="w-5 h-5 text-amber-600" />
-                    <span className="font-bold text-amber-800">Premium Benefits</span>
+                    <Crown className="w-5 h-5 text-pink-600" />
+                    <span className="font-bold text-violet-800">Premium Benefits</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 text-sm text-amber-700">
+                  <div className="flex items-center space-x-2 text-sm text-violet-700">
                     <Ban className="w-4 h-4" />
                     <span>Ad-free experience</span>
                   </div>
