@@ -32,17 +32,17 @@
 
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.3);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #EF4444, #F97316);
+  background: linear-gradient(135deg, #EC4899, #8B5CF6);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
 }
 
 .category-card {
