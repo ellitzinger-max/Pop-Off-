@@ -280,6 +280,27 @@ export default function Dashboard() {
             )}
           </div>
         )}
+        
+        {/* Boost Modal */}
+        {boostModalTopic && (
+          <BoostModal
+            topicId={boostModalTopic.topic_id}
+            topicTitle={boostModalTopic.title}
+            onClose={() => setBoostModalTopic(null)}
+            onSuccess={handleBoostSuccess}
+          />
+        )}
+        
+        {/* Reward Ad Modal */}
+        {showRewardAd && (
+          <RewardAdModal
+            onClose={() => setShowRewardAd(false)}
+            onReward={() => {
+              fetchAdConfig();
+              setShowRewardAd(false);
+            }}
+          />
+        )}
       </main>
     </div>
   );
