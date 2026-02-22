@@ -82,9 +82,9 @@ export default function BoostSuccess() {
           <CardContent className="pt-6">
             {status === 'success' && (
               <div className="space-y-4">
-                <div className="bg-gradient-to-r from-orange-100 to-red-100 rounded-xl p-4 flex items-center justify-center space-x-3">
-                  <TrendingUp className="w-6 h-6 text-orange-500" />
-                  <span className="font-semibold text-orange-700">Your topic is now boosted!</span>
+                <div className="bg-gradient-to-r from-pink-100 to-violet-100 rounded-xl p-4 flex items-center justify-center space-x-3">
+                  <TrendingUp className="w-6 h-6 text-pink-500" />
+                  <span className="font-semibold text-violet-700">Your topic is now boosted!</span>
                 </div>
                 
                 <p className="text-sm text-muted-foreground">
