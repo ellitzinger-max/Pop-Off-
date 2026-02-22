@@ -947,6 +947,40 @@ async def create_topic(topic_data: TopicCreate, request: Request):
 async def get_topics(category: Optional[str] = None):
     query = {"active": True}
     if category:
+        query["category"] = category
+    
+    topics = await db.topics.find(query, {"_id": 0}).to_list(100)
+    
+    current_time = datetime.now(timezone.utc)
+    
+    for topic in topics:
+        if isinstance(topic['created_at'], str):
+            topic['created_at'] = datetime.fromisoformat(topic['created_at'])
+        
+        boosted_until = topic.get('boosted_until')
+        if boosted_until:
+            if isinstance(boosted_until, str):
+                boosted_until = datetime.fromisoformat(boosted_until)
+            if boosted_until.tzinfo is None:
+                boosted_until = boosted_until.replace(tzinfo=timezone.utc)
+            
+            if boosted_until < current_time:
+                topic['is_boosted'] = False
+                topic['is_featured'] = False
+            else:
+                topic['is_boosted'] = True
+    
+    boosted_topics = [t for t in topics if t.get('is_boosted')]
+    regular_topics = [t for t in topics if not t.get('is_boosted')]
+    
+    featured = [t for t in boosted_topics if t.get('is_featured')]
+    other_boosted = [t for t in boosted_topics if not t.get('is_featured')]
+    
+    featured.sort(key=lambda x: x.get('created_at', datetime.min), reverse=True)
+    other_boosted.sort(key=lambda x: x.get('created_at', datetime.min), reverse=True)
+    regular_topics.sort(key=lambda x: x.get('created_at', datetime.min), reverse=True)
+    
+    return featured + other_boosted + regular_topics
 
 @api_router.get("/topics/search")
 async def search_topics(
