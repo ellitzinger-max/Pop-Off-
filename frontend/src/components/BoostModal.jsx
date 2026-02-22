@@ -129,8 +129,8 @@ export const BoostModal = ({ topicId, topicTitle, onClose, onSuccess }) => {
           ))}
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-          <p className="text-sm text-blue-800">
+        <div className="bg-violet-50 border border-violet-200 rounded-lg p-4 mb-4">
+          <p className="text-sm text-violet-800">
             <strong>🚀 Why boost?</strong> Boosted topics appear at the top of listings and get
             special badges, increasing views by 3-5x on average.
           </p>
