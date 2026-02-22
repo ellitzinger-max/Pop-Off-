@@ -17,11 +17,11 @@ import { RewardAdModal } from '@/components/RewardAdModal';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const CATEGORIES = [
-  { id: 'relationships', label: 'Relationships', color: 'bg-rose-500' },
-  { id: 'mental-health', label: 'Mental Health', color: 'bg-emerald-500' },
+  { id: 'relationships', label: 'Relationships', color: 'bg-pink-500' },
+  { id: 'mental-health', label: 'Mental Health', color: 'bg-violet-500' },
   { id: 'news', label: 'News & Politics', color: 'bg-blue-500' },
   { id: 'entertainment', label: 'Movies & TV', color: 'bg-purple-500' },
-  { id: 'hobbies', label: 'Hobbies & Skills', color: 'bg-amber-500' },
+  { id: 'hobbies', label: 'Hobbies & Skills', color: 'bg-yellow-500' },
   { id: 'general', label: 'General Chat', color: 'bg-gray-500' },
 ];
 
