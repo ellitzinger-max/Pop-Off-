@@ -1262,10 +1262,13 @@ async def watch_reward_ad(request: Request):
     if ad_type not in AD_REWARDS:
         raise HTTPException(status_code=400, detail="Invalid ad type")
     
-    last_ad_view = await db.ad_views.find_one(
+    # Get the most recent ad view using find().sort().limit(1)
+    ad_views_cursor = db.ad_views.find(
         {"user_id": user.user_id, "ad_type": ad_type},
         {"_id": 0}
-    ).sort("created_at", -1)
+    ).sort("created_at", -1).limit(1)
+    last_ad_view = await ad_views_cursor.to_list(1)
+    last_ad_view = last_ad_view[0] if last_ad_view else None
     
     if last_ad_view:
         last_view_time = last_ad_view["created_at"]
