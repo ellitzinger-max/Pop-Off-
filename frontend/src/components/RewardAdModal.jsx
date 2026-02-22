@@ -78,7 +78,7 @@ export const RewardAdModal = ({ onClose, onReward }) => {
         <div className="py-6">
           {stage === 'ready' && (
             <div className="text-center space-y-6">
-              <div className="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg">
+              <div className="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-br from-pink-400 to-violet-500 flex items-center justify-center shadow-lg">
                 <Play className="w-12 h-12 text-white" />
               </div>
               
@@ -87,7 +87,7 @@ export const RewardAdModal = ({ onClose, onReward }) => {
                 <p className="text-sm text-muted-foreground">Watch a 5-second ad to earn</p>
               </div>
               
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
+              <div className="bg-violet-50 border border-violet-200 rounded-lg p-3 text-sm text-violet-700">
                 <strong>Tip:</strong> Use coins to boost your topics and get more visibility!
               </div>
               
