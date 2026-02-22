@@ -97,13 +97,13 @@ export default function Landing() {
       </section>
 
       {/* Disclaimer Section */}
-      <section className="py-16 bg-amber-50 border-y border-amber-200">
+      <section className="py-16 bg-violet-50 border-y border-violet-200">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="flex items-start space-x-4" data-testid="disclaimer-section">
-            <Shield className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+            <Shield className="w-6 h-6 text-violet-600 flex-shrink-0 mt-1" />
             <div>
-              <h3 className="text-xl font-bold text-amber-900 mb-2">Important Disclaimer</h3>
-              <p className="text-amber-800 leading-relaxed">
+              <h3 className="text-xl font-bold text-violet-900 mb-2">Important Disclaimer</h3>
+              <p className="text-violet-800 leading-relaxed">
                 Pop Off! is a social platform for peer support and connection. Any advice from members who are not 
                 professional counselors or specialists should not substitute seeing a real professional. We are not 
                 liable for any advice-giving on this platform. If you're experiencing mental health crises, please 
