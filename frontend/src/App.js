@@ -14,6 +14,8 @@ import SocialConnections from '@/pages/SocialConnections';
 import SwipeMatch from '@/pages/SwipeMatch';
 import Matches from '@/pages/Matches';
 import Chat from '@/pages/Chat';
+import BoostSuccess from '@/pages/BoostSuccess';
+import PremiumSuccess from '@/pages/PremiumSuccess';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -40,6 +42,8 @@ function AppRouter() {
         <Route path="/create-topic" element={<ProtectedRoute><CreateTopic /></ProtectedRoute>} />
         <Route path="/room/:topicId" element={<ProtectedRoute><VideoRoom /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/boost-success" element={<ProtectedRoute><BoostSuccess /></ProtectedRoute>} />
+        <Route path="/premium-success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
       </Routes>
       <Toaster position="top-right" richColors />
     </>
