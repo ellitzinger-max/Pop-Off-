@@ -37,6 +37,7 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matchLoading, setMatchLoading] = useState(true);
   const [swiping, setSwiping] = useState(false);
+  const [topicSearch, setTopicSearch] = useState('');
   
   // Trending state - for hot/featured topics only
   const [trendingTopics, setTrendingTopics] = useState([]);
@@ -165,6 +166,15 @@ export default function Home() {
     }
   };
 
+  const handleTopicSearch = () => {
+    if (!topicSearch.trim()) return;
+    
+    // Navigate to topics tab with search query
+    setSearchQuery(topicSearch);
+    setActiveTab('post');
+    toast.success(`Searching for "${topicSearch}"...`);
+  };
+
   const handleCreateTopic = async (e) => {
     e.preventDefault();
     
@@ -236,6 +246,42 @@ export default function Home() {
 
           {/* MATCHING TAB */}
           <TabsContent value="matching" className="mt-0">
+            {/* Quick Search & Pop Off Section */}
+            <Card className="glass-effect mb-6 border-2 border-pink-200 bg-gradient-to-r from-pink-50/50 to-violet-50/50" data-testid="quick-search-card">
+              <CardContent className="p-4">
+                <div className="flex flex-col md:flex-row gap-3 items-center">
+                  <div className="relative flex-1 w-full">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Search for a topic to Pop Off! about..."
+                      value={topicSearch}
+                      onChange={(e) => setTopicSearch(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && topicSearch.trim()) {
+                          handleTopicSearch();
+                        }
+                      }}
+                      className="pl-10 pr-4 py-6 text-lg rounded-full border-2 border-pink-200 focus:border-pink-400"
+                      data-testid="topic-search-input"
+                    />
+                  </div>
+                  <Button
+                    onClick={handleTopicSearch}
+                    className="btn-primary rounded-full px-8 py-6 text-lg font-bold whitespace-nowrap"
+                    disabled={!topicSearch.trim()}
+                    data-testid="pop-off-search-btn"
+                  >
+                    <Zap className="w-5 h-5 mr-2" />
+                    Pop Off!
+                  </Button>
+                </div>
+                <p className="text-center text-sm text-muted-foreground mt-2">
+                  Search for topics or <button onClick={() => setActiveTab('post')} className="text-pink-500 font-medium hover:underline">browse all topics</button>
+                </p>
+              </CardContent>
+            </Card>
+
             <div className="text-center mb-6">
               <h1 className="text-3xl font-extrabold tracking-tight mb-1">
                 <span className="text-gradient">Find Your Match</span>
