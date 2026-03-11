@@ -74,6 +74,15 @@ export default function MatchVideoChat() {
       // Use match_id directly as the channel name for 1-on-1 calls
       const channelName = matchId;
       
+      // Get token from backend
+      const tokenRes = await axios.post(
+        `${BACKEND_URL}/api/agora/token`,
+        { channel_name: channelName },
+        { withCredentials: true }
+      );
+      
+      const { token } = tokenRes.data;
+      
       clientRef.current = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
       
       // Handle remote user joining
@@ -117,20 +126,25 @@ export default function MatchVideoChat() {
         toast.info(`${match?.other_user?.name} left the call`);
       });
       
-      // Join the channel (App ID only mode - no token needed)
-      await clientRef.current.join(AGORA_APP_ID, channelName, null, null);
+      // Join the channel with token
+      await clientRef.current.join(AGORA_APP_ID, channelName, token, null);
       
       // Create and publish local tracks
-      const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
-      localTracksRef.current = [audioTrack, videoTrack];
-      
-      // Play local video
-      const localPlayerContainer = document.getElementById('local-video');
-      if (localPlayerContainer) {
-        videoTrack.play(localPlayerContainer);
+      try {
+        const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
+        localTracksRef.current = [audioTrack, videoTrack];
+        
+        // Play local video
+        const localPlayerContainer = document.getElementById('local-video');
+        if (localPlayerContainer) {
+          videoTrack.play(localPlayerContainer);
+        }
+        
+        await clientRef.current.publish([audioTrack, videoTrack]);
+      } catch (mediaError) {
+        console.error('Media device error:', mediaError);
+        toast.error('Could not access camera/microphone. Please check permissions.');
       }
-      
-      await clientRef.current.publish([audioTrack, videoTrack]);
       
       // Start call timer
       callTimerRef.current = setInterval(() => {

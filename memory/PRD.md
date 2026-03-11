@@ -177,3 +177,10 @@ STRIPE_API_KEY=sk_test_...
 REACT_APP_BACKEND_URL=https://your-app.preview.emergentagent.com
 REACT_APP_AGORA_APP_ID=your_agora_app_id
 ```
+
+## Agora Video Chat Configuration
+- **Status**: ✅ CONFIGURED AND WORKING
+- **App ID**: `746b1d39d5a5485f829f5b435f9a737e`
+- **Mode**: APP ID + Token (Secured)
+- **Token Generation**: Backend generates tokens using `agora_token_builder`
+- **Features**: 1-on-1 video calls for matched users, topic-based group video rooms

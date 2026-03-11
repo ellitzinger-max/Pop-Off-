@@ -1607,7 +1607,8 @@ async def generate_agora_token(request: Request):
     if not app_id or not app_certificate:
         raise HTTPException(status_code=500, detail="Agora not configured")
     
-    uid = hash(user.user_id) & 0x7fffffff
+    # Use 0 for uid to allow any user to join
+    uid = 0
     expiration_seconds = 3600
     current_time = int(time.time())
     privilege_expired_ts = current_time + expiration_seconds

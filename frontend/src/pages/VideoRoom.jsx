@@ -57,6 +57,15 @@ export default function VideoRoom() {
     }
 
     try {
+      // Get token from backend
+      const tokenRes = await axios.post(
+        `${BACKEND_URL}/api/agora/token`,
+        { channel_name: topicId },
+        { withCredentials: true }
+      );
+      
+      const { token } = tokenRes.data;
+      
       clientRef.current = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
       
       clientRef.current.on('user-published', async (remoteUser, mediaType) => {
@@ -81,25 +90,30 @@ export default function VideoRoom() {
         playerContainer?.remove();
       });
       
-      // App ID only mode - no token needed
+      // Join with token
       const uid = await clientRef.current.join(
         AGORA_APP_ID,
         topicId,
-        null,
+        token,
         null
       );
       
-      const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
-      localTracksRef.current = [audioTrack, videoTrack];
-      
-      const localPlayerContainer = document.createElement('div');
-      localPlayerContainer.id = 'local-player';
-      localPlayerContainer.className = 'video-player rounded-lg overflow-hidden relative';
-      localPlayerContainer.innerHTML = '<div class="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-sm">You</div>';
-      document.getElementById('agora-video-container')?.appendChild(localPlayerContainer);
-      videoTrack.play('local-player');
-      
-      await clientRef.current.publish([audioTrack, videoTrack]);
+      try {
+        const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
+        localTracksRef.current = [audioTrack, videoTrack];
+        
+        const localPlayerContainer = document.createElement('div');
+        localPlayerContainer.id = 'local-player';
+        localPlayerContainer.className = 'video-player rounded-lg overflow-hidden relative';
+        localPlayerContainer.innerHTML = '<div class="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-sm">You</div>';
+        document.getElementById('agora-video-container')?.appendChild(localPlayerContainer);
+        videoTrack.play('local-player');
+        
+        await clientRef.current.publish([audioTrack, videoTrack]);
+      } catch (mediaError) {
+        console.error('Media device error:', mediaError);
+        toast.error('Could not access camera/microphone. Please check permissions.');
+      }
       
       connectWebSocket();
       setJoined(true);
