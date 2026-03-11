@@ -32,7 +32,7 @@ export default function AuthCallback() {
         );
 
         toast.success('Login successful!');
-        navigate('/dashboard', { state: { user: response.data.user }, replace: true });
+        navigate('/home', { state: { user: response.data.user }, replace: true });
       } catch (error) {
         console.error('Auth error:', error);
         toast.error('Authentication failed');

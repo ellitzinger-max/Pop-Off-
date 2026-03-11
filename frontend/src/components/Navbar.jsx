@@ -39,13 +39,13 @@ export const Navbar = ({ user }) => {
               <Button variant="ghost" data-testid="nav-home-btn">🔥 Matching</Button>
             </Link>
             <Link to="/home?tab=trending">
-              <Button variant="ghost" data-testid="nav-trending-btn">📈 Trending</Button>
+              <Button variant="ghost" data-testid="nav-trending-btn">📈 Hot</Button>
             </Link>
             <Link to="/home?tab=post">
-              <Button variant="ghost" data-testid="nav-post-btn">➕ Post</Button>
+              <Button variant="ghost" data-testid="nav-post-btn">💬 Topics</Button>
             </Link>
             <Link to="/matches">
-              <Button variant="ghost" data-testid="nav-matches-btn">💬 My Matches</Button>
+              <Button variant="ghost" data-testid="nav-matches-btn">❤️ My Matches</Button>
             </Link>
 
             <DropdownMenu>

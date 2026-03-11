@@ -9,10 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { X, Heart, MapPin, Sparkles, TrendingUp, Plus, Users, Clock, Flame, Zap, Search } from 'lucide-react';
+import { X, Heart, MapPin, Sparkles, TrendingUp, Plus, Users, Clock, Flame, Zap, Search, MessageSquare } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SocialShare } from '@/components/SocialShare';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -37,11 +38,16 @@ export default function Home() {
   const [matchLoading, setMatchLoading] = useState(true);
   const [swiping, setSwiping] = useState(false);
   
-  // Trending state
+  // Trending state - for hot/featured topics only
   const [trendingTopics, setTrendingTopics] = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
+  
+  // Post/Discover state - all topics with search/filter
+  const [allTopics, setAllTopics] = useState([]);
+  const [topicsLoading, setTopicsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showCreateForm, setShowCreateForm] = useState(false);
   
   // Post state
   const [postData, setPostData] = useState({
@@ -61,6 +67,8 @@ export default function Home() {
       fetchSuggestions();
     } else if (activeTab === 'trending') {
       fetchTrendingTopics();
+    } else if (activeTab === 'post') {
+      fetchAllTopics();
     }
   }, [activeTab]);
 
@@ -93,12 +101,37 @@ export default function Home() {
   const fetchTrendingTopics = async () => {
     setTrendingLoading(true);
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/topics`, { withCredentials: true });
+      // Fetch only boosted/trending topics
+      const response = await axios.get(`${BACKEND_URL}/api/topics/trending`, { withCredentials: true });
       setTrendingTopics(response.data);
+    } catch (error) {
+      // Fallback to regular topics if trending endpoint doesn't exist
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/topics`, { withCredentials: true });
+        // Sort by participants/boosted to simulate trending
+        const sorted = response.data.sort((a, b) => {
+          if (a.is_boosted && !b.is_boosted) return -1;
+          if (!a.is_boosted && b.is_boosted) return 1;
+          return (b.current_participants || 0) - (a.current_participants || 0);
+        });
+        setTrendingTopics(sorted.slice(0, 10)); // Top 10 trending
+      } catch (e) {
+        console.error('Failed to load trending topics');
+      }
+    } finally {
+      setTrendingLoading(false);
+    }
+  };
+
+  const fetchAllTopics = async () => {
+    setTopicsLoading(true);
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/topics`, { withCredentials: true });
+      setAllTopics(response.data);
     } catch (error) {
       console.error('Failed to load topics');
     } finally {
-      setTrendingLoading(false);
+      setTopicsLoading(false);
     }
   };
 
@@ -157,7 +190,7 @@ export default function Home() {
     }
   };
 
-  const filteredTopics = trendingTopics.filter(topic => {
+  const filteredTopics = allTopics.filter(topic => {
     const matchesCategory = selectedCategory === 'all' || topic.category === selectedCategory;
     const matchesSearch = !searchQuery || 
       topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -188,16 +221,16 @@ export default function Home() {
               className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-violet-500 data-[state=active]:text-white text-base font-semibold"
               data-testid="trending-tab"
             >
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Trending
+              <Flame className="w-4 h-4 mr-2" />
+              Hot
             </TabsTrigger>
             <TabsTrigger 
               value="post" 
               className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-violet-500 data-[state=active]:text-white text-base font-semibold"
               data-testid="post-tab"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Post
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Topics
             </TabsTrigger>
           </TabsList>
 
@@ -331,53 +364,25 @@ export default function Home() {
             )}
           </TabsContent>
 
-          {/* TRENDING TAB */}
+          {/* TRENDING TAB - Hot/Featured Topics Only */}
           <TabsContent value="trending" className="mt-0">
             <div className="mb-6">
               <h1 className="text-3xl font-extrabold tracking-tight mb-1">
-                <span className="text-gradient">Trending Topics</span>
+                <span className="text-gradient">🔥 What's Hot</span>
               </h1>
-              <p className="text-muted-foreground">Join conversations happening now</p>
-            </div>
-
-            {/* Search and Filter */}
-            <div className="flex gap-3 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search topics..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 rounded-full"
-                  data-testid="search-topics"
-                />
-              </div>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-40 rounded-full" data-testid="category-filter">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {CATEGORIES.map(cat => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.icon} {cat.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <p className="text-muted-foreground">The most active conversations right now</p>
             </div>
 
             {trendingLoading ? (
               <div className="flex items-center justify-center py-20">
                 <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
               </div>
-            ) : filteredTopics.length === 0 ? (
+            ) : trendingTopics.length === 0 ? (
               <Card className="glass-effect text-center py-16">
                 <CardContent>
-                  <TrendingUp className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                  <h2 className="text-xl font-bold mb-2">No Topics Found</h2>
-                  <p className="text-muted-foreground mb-4">Be the first to start a conversation!</p>
+                  <Flame className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                  <h2 className="text-xl font-bold mb-2">No Hot Topics Yet</h2>
+                  <p className="text-muted-foreground mb-4">Be the first to start a trending conversation!</p>
                   <Button onClick={() => setActiveTab('post')} className="btn-primary rounded-full">
                     <Plus className="w-4 h-4 mr-2" />
                     Create Topic
@@ -385,38 +390,47 @@ export default function Home() {
                 </CardContent>
               </Card>
             ) : (
-              <div className="grid gap-4" data-testid="topics-list">
-                {filteredTopics.map((topic, index) => (
+              <div className="grid gap-4" data-testid="trending-list">
+                {trendingTopics.map((topic, index) => (
                   <Card 
                     key={topic.topic_id} 
-                    className="glass-effect hover-lift cursor-pointer"
+                    className={`glass-effect hover-lift cursor-pointer border-2 ${
+                      topic.is_boosted ? 'border-pink-300 bg-gradient-to-r from-pink-50/50 to-violet-50/50' : ''
+                    }`}
                     onClick={() => navigate(`/room/${topic.topic_id}`)}
-                    data-testid={`topic-${index}`}
+                    data-testid={`trending-topic-${index}`}
                   >
-                    <CardContent className="p-4 flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Badge variant="secondary" className="text-xs">
-                            {CATEGORIES.find(c => c.id === topic.category)?.icon} {topic.category}
-                          </Badge>
-                          {topic.is_boosted && (
-                            <Badge className="bg-gradient-to-r from-pink-500 to-violet-500 text-white text-xs">
-                              <Flame className="w-3 h-3 mr-1" /> Hot
+                    <CardContent className="p-5">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-2xl font-bold text-pink-500">#{index + 1}</span>
+                            {topic.is_boosted && (
+                              <Badge className="bg-gradient-to-r from-pink-500 to-violet-500 text-white">
+                                <Flame className="w-3 h-3 mr-1" /> Hot
+                              </Badge>
+                            )}
+                            <Badge variant="secondary">
+                              {CATEGORIES.find(c => c.id === topic.category)?.icon} {topic.category}
                             </Badge>
+                          </div>
+                          <h3 className="font-bold text-xl mb-1">{topic.title}</h3>
+                          {topic.description && (
+                            <p className="text-muted-foreground line-clamp-2">{topic.description}</p>
                           )}
+                          <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
+                            <span className="flex items-center">
+                              <Users className="w-4 h-4 mr-1" />
+                              {topic.current_participants || 0} in room
+                            </span>
+                            <span className="flex items-center">
+                              <MessageSquare className="w-4 h-4 mr-1" />
+                              {topic.creator_name}
+                            </span>
+                          </div>
                         </div>
-                        <h3 className="font-bold text-lg">{topic.title}</h3>
-                        {topic.description && (
-                          <p className="text-sm text-muted-foreground line-clamp-1">{topic.description}</p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center">
-                          <Users className="w-4 h-4 mr-1" />
-                          {topic.current_participants}/{topic.max_participants}
-                        </div>
-                        <Button size="sm" className="btn-primary rounded-full">
-                          Join
+                        <Button size="lg" className="btn-primary rounded-full ml-4">
+                          Join Now
                         </Button>
                       </div>
                     </CardContent>
@@ -426,18 +440,33 @@ export default function Home() {
             )}
           </TabsContent>
 
-          {/* POST TAB */}
+          {/* POST TAB - Discover Topics + Create */}
           <TabsContent value="post" className="mt-0">
-            <div className="max-w-lg mx-auto">
-              <div className="text-center mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
                 <h1 className="text-3xl font-extrabold tracking-tight mb-1">
-                  <span className="text-gradient">Start a Conversation</span>
+                  <span className="text-gradient">Discover Topics</span>
                 </h1>
-                <p className="text-muted-foreground">Create a topic and invite others to Pop Off!</p>
+                <p className="text-muted-foreground">Find conversations or start your own</p>
               </div>
+              <Button 
+                onClick={() => setShowCreateForm(!showCreateForm)} 
+                className="btn-primary rounded-full"
+                data-testid="toggle-create-btn"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                {showCreateForm ? 'Browse Topics' : 'Create Topic'}
+              </Button>
+            </div>
 
-              <Card className="glass-effect" data-testid="create-topic-card">
-                <CardContent className="pt-6">
+            {showCreateForm ? (
+              /* CREATE TOPIC FORM */
+              <Card className="glass-effect max-w-lg mx-auto" data-testid="create-topic-card">
+                <CardHeader>
+                  <CardTitle>Start a Conversation</CardTitle>
+                  <CardDescription>Create a topic and invite others to Pop Off!</CardDescription>
+                </CardHeader>
+                <CardContent>
                   <form onSubmit={handleCreateTopic} className="space-y-5">
                     <div className="space-y-2">
                       <Label htmlFor="title">What do you want to talk about? *</Label>
@@ -521,7 +550,107 @@ export default function Home() {
                   </form>
                 </CardContent>
               </Card>
-            </div>
+            ) : (
+              /* DISCOVER/BROWSE TOPICS */
+              <>
+                {/* Search and Filter */}
+                <div className="flex gap-3 mb-6">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Search topics..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10 rounded-full"
+                      data-testid="search-topics"
+                    />
+                  </div>
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger className="w-40 rounded-full" data-testid="category-filter">
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Categories</SelectItem>
+                      {CATEGORIES.map(cat => (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          {cat.icon} {cat.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {topicsLoading ? (
+                  <div className="flex items-center justify-center py-20">
+                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+                  </div>
+                ) : filteredTopics.length === 0 ? (
+                  <Card className="glass-effect text-center py-16">
+                    <CardContent>
+                      <TrendingUp className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                      <h2 className="text-xl font-bold mb-2">No Topics Found</h2>
+                      <p className="text-muted-foreground mb-4">Be the first to start a conversation!</p>
+                      <Button onClick={() => setShowCreateForm(true)} className="btn-primary rounded-full">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Topic
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="topics-grid">
+                    {filteredTopics.map((topic, index) => (
+                      <Card 
+                        key={topic.topic_id} 
+                        className={`glass-effect hover-lift cursor-pointer border-2 transition-all ${
+                          topic.is_boosted ? 'border-pink-300' : 'hover:border-primary/50'
+                        }`}
+                        onClick={() => navigate(`/room/${topic.topic_id}`)}
+                        data-testid={`topic-card-${index}`}
+                      >
+                        <CardHeader className="pb-2">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <Badge variant="secondary" className="text-xs">
+                              {CATEGORIES.find(c => c.id === topic.category)?.icon} {topic.category}
+                            </Badge>
+                            {topic.is_boosted && (
+                              <Badge className="bg-gradient-to-r from-pink-500 to-violet-500 text-white text-xs">
+                                <Flame className="w-3 h-3 mr-1" /> Boosted
+                              </Badge>
+                            )}
+                          </div>
+                          <CardTitle className="text-lg line-clamp-2">{topic.title}</CardTitle>
+                          {topic.description && (
+                            <CardDescription className="line-clamp-2">{topic.description}</CardDescription>
+                          )}
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <div className="flex items-center justify-between text-sm text-muted-foreground">
+                            <div className="flex items-center gap-3">
+                              <span className="flex items-center">
+                                <Users className="w-4 h-4 mr-1" />
+                                {topic.current_participants || 0}/{topic.max_participants}
+                              </span>
+                              <span>{topic.creator_name}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 mt-3 pt-3 border-t" onClick={(e) => e.stopPropagation()}>
+                            <SocialShare 
+                              contentType="topic" 
+                              contentId={topic.topic_id} 
+                              title={topic.title}
+                            />
+                            <Button size="sm" className="btn-primary rounded-full ml-auto">
+                              Join
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
           </TabsContent>
         </Tabs>
       </main>
