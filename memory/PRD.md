@@ -22,6 +22,11 @@
 - [x] **Search bar** for finding specific topics ✅ IMPLEMENTED
 - [x] Swipe-and-match feature based on interests
 - [x] Advanced user preferences (age, gender, etc.)
+- [x] **Video Chat for Matched Users** ✅ IMPLEMENTED
+  - Video call button on Matches page and Chat page
+  - Pre-call screen with match info
+  - 1-on-1 video calls using Agora SDK
+  - Audio/video toggle controls
 
 ### Monetization
 - [x] **Topic Boost** with Stripe integration ✅ IMPLEMENTED
@@ -125,6 +130,15 @@
 - **Social Sharing** component on topic cards ✅
 - **Search Bar** for topics ✅
 - Global "Pop Off" → "Pop Off!" branding ✅
+- **Color Scheme** updated to Electric Violet + Hot Pink + Sunshine Yellow ✅
+
+### Session 3 - Video Chat for Matches
+- **Video Call for Matched Users** ✅
+  - Video/Chat buttons on Matches page
+  - Pre-call screen with match info  
+  - MatchVideoChat.jsx page with Agora integration
+  - Video Call button in Chat header
+  - Audio/video toggle, end call controls
 
 ## Pending Tasks
 
