@@ -630,10 +630,12 @@ async def get_matches(request: Request):
         other_user = await db.users.find_one({"user_id": other_user_id}, {"_id": 0, "password": 0})
         
         if other_user:
-            last_message = await db.chat_messages.find_one(
+            last_message_cursor = db.chat_messages.find(
                 {"match_id": match["match_id"]},
                 {"_id": 0}
-            ).sort("timestamp", -1)
+            ).sort("timestamp", -1).limit(1)
+            last_messages = await last_message_cursor.to_list(1)
+            last_message = last_messages[0] if last_messages else None
             
             enriched_matches.append({
                 **match,

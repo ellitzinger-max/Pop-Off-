@@ -4,7 +4,8 @@ import { Navbar } from '@/components/Navbar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { MessageCircle, Users, Video } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -82,12 +83,14 @@ export default function Matches() {
             {matches.map((match, index) => (
               <Card
                 key={match.match_id}
-                className="hover-lift cursor-pointer glass-effect"
-                onClick={() => navigate(`/chat/${match.match_id}`)}
+                className="hover-lift glass-effect"
                 data-testid={`match-card-${index}`}
               >
                 <CardContent className="flex items-center justify-between p-6">
-                  <div className="flex items-center space-x-4">
+                  <div 
+                    className="flex items-center space-x-4 flex-1 cursor-pointer"
+                    onClick={() => navigate(`/chat/${match.match_id}`)}
+                  >
                     <Avatar className="w-16 h-16 border-2 border-primary/20">
                       <AvatarImage src={match.other_user.picture} />
                       <AvatarFallback className="bg-primary/20 text-primary text-xl">
@@ -118,7 +121,28 @@ export default function Matches() {
                     </div>
                   </div>
                   
-                  <MessageCircle className="w-6 h-6 text-primary" />
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate(`/video-call/${match.match_id}`)}
+                      className="rounded-full text-pink-500 border-pink-300 hover:bg-pink-50"
+                      data-testid={`video-call-btn-${index}`}
+                    >
+                      <Video className="w-4 h-4 mr-1" />
+                      Video
+                    </Button>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => navigate(`/chat/${match.match_id}`)}
+                      className="rounded-full btn-primary"
+                      data-testid={`chat-btn-${index}`}
+                    >
+                      <MessageCircle className="w-4 h-4 mr-1" />
+                      Chat
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}

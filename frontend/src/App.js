@@ -16,6 +16,7 @@ import Matches from '@/pages/Matches';
 import Chat from '@/pages/Chat';
 import BoostSuccess from '@/pages/BoostSuccess';
 import PremiumSuccess from '@/pages/PremiumSuccess';
+import MatchVideoChat from '@/pages/MatchVideoChat';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -39,6 +40,7 @@ function AppRouter() {
         <Route path="/swipe" element={<ProtectedRoute><SwipeMatch /></ProtectedRoute>} />
         <Route path="/matches" element={<ProtectedRoute><Matches /></ProtectedRoute>} />
         <Route path="/chat/:matchId" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
+        <Route path="/video-call/:matchId" element={<ProtectedRoute><MatchVideoChat /></ProtectedRoute>} />
         <Route path="/create-topic" element={<ProtectedRoute><CreateTopic /></ProtectedRoute>} />
         <Route path="/room/:topicId" element={<ProtectedRoute><VideoRoom /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

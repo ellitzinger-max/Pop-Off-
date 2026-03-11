@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Send, ArrowLeft, Flag } from 'lucide-react';
+import { Send, ArrowLeft, Flag, Video } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { ReportModal } from '@/components/ReportModal';
@@ -141,15 +141,27 @@ export default function Chat() {
               </div>
             </div>
             
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowReport(true)}
-              data-testid="report-user-btn"
-            >
-              <Flag className="h-4 w-4 mr-2" />
-              Report
-            </Button>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => navigate(`/video-call/${matchId}`)}
+                className="btn-primary rounded-full"
+                data-testid="start-video-call-btn"
+              >
+                <Video className="h-4 w-4 mr-2" />
+                Video Call
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowReport(true)}
+                data-testid="report-user-btn"
+              >
+                <Flag className="h-4 w-4 mr-2" />
+                Report
+              </Button>
+            </div>
           </div>
         </div>
       </div>
