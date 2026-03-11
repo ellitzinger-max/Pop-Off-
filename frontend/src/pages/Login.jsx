@@ -34,7 +34,7 @@ export default function Login() {
       });
       
       toast.success('Login successful!');
-      const from = location.state?.from || '/dashboard';
+      const from = location.state?.from || '/home';
       navigate(from, { state: { user: response.data.user } });
     } catch (error) {
       if (error.response?.status === 401) {

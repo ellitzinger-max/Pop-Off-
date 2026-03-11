@@ -3,6 +3,7 @@ import '@/App.css';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
 import AuthCallback from '@/pages/AuthCallback';
+import Home from '@/pages/Home';
 import Dashboard from '@/pages/Dashboard';
 import TrendingTopics from '@/pages/TrendingTopics';
 import CreateTopic from '@/pages/CreateTopic';
@@ -33,6 +34,7 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/trending" element={<ProtectedRoute><TrendingTopics /></ProtectedRoute>} />
         <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />

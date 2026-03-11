@@ -140,6 +140,15 @@
   - Video Call button in Chat header
   - Audio/video toggle, end call controls
 
+### Session 4 - Onboarding & Home Page Redesign
+- **New Onboarding Flow** ✅
+  - Signup → Profile Setup (photo, bio, interests) → Pop Off! Prompt → Home
+- **Unified Home Page with Tabs** ✅
+  - **Matching Tab** (default): Swipe cards to match with users
+  - **Trending Tab**: Browse/search topics by category
+  - **Post Tab**: Create new topics with category selection
+- **Updated Navigation**: Home, Trending, Post, My Matches links
+
 ## Pending Tasks
 
 ### High Priority (P0)

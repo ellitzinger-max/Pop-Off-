@@ -30,22 +30,22 @@ export const Navbar = ({ user }) => {
     <nav className="glass-effect border-b sticky top-0 z-50">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-16">
-          <Link to="/dashboard" className="flex items-center space-x-2">
+          <Link to="/home" className="flex items-center space-x-2">
             <span className="text-2xl font-extrabold text-gradient">Pop Off!</span>
           </Link>
 
           <div className="flex items-center space-x-4">
-            <Link to="/trending">
-              <Button variant="ghost" data-testid="nav-trending-btn">🔥 Trending</Button>
+            <Link to="/home">
+              <Button variant="ghost" data-testid="nav-home-btn">🔥 Matching</Button>
             </Link>
-            <Link to="/dashboard">
-              <Button variant="ghost" data-testid="nav-dashboard-btn">Topics</Button>
+            <Link to="/home?tab=trending">
+              <Button variant="ghost" data-testid="nav-trending-btn">📈 Trending</Button>
             </Link>
-            <Link to="/swipe">
-              <Button variant="ghost" data-testid="nav-swipe-btn">Find Matches</Button>
+            <Link to="/home?tab=post">
+              <Button variant="ghost" data-testid="nav-post-btn">➕ Post</Button>
             </Link>
             <Link to="/matches">
-              <Button variant="ghost" data-testid="nav-matches-btn">My Matches</Button>
+              <Button variant="ghost" data-testid="nav-matches-btn">💬 My Matches</Button>
             </Link>
 
             <DropdownMenu>

@@ -64,11 +64,11 @@ export default function PopOffPrompt() {
       );
 
       toast.success("Let's find you someone to Pop Off! with");
-      navigate('/swipe');
+      navigate('/home');
     } catch (error) {
-      // If endpoint doesn't exist yet, just navigate to swipe
+      // If endpoint doesn't exist yet, just navigate to home
       console.log('Pop off topic save skipped');
-      navigate('/swipe');
+      navigate('/home');
     } finally {
       setLoading(false);
     }
@@ -185,7 +185,7 @@ export default function PopOffPrompt() {
 
             {/* Skip Option */}
             <button
-              onClick={() => navigate('/swipe')}
+              onClick={() => navigate('/home')}
               className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
               data-testid="skip-to-browse-btn"
             >
