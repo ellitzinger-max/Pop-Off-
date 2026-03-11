@@ -57,14 +57,6 @@ export default function VideoRoom() {
     }
 
     try {
-      const tokenRes = await axios.post(
-        `${BACKEND_URL}/api/agora/token`,
-        { channel_name: topicId },
-        { withCredentials: true }
-      );
-      
-      const { token } = tokenRes.data;
-      
       clientRef.current = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
       
       clientRef.current.on('user-published', async (remoteUser, mediaType) => {
@@ -89,10 +81,11 @@ export default function VideoRoom() {
         playerContainer?.remove();
       });
       
+      // App ID only mode - no token needed
       const uid = await clientRef.current.join(
         AGORA_APP_ID,
         topicId,
-        token,
+        null,
         null
       );
       

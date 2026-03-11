@@ -74,14 +74,6 @@ export default function MatchVideoChat() {
       // Use match_id directly as the channel name for 1-on-1 calls
       const channelName = matchId;
       
-      const tokenRes = await axios.post(
-        `${BACKEND_URL}/api/agora/token`,
-        { channel_name: channelName },
-        { withCredentials: true }
-      );
-      
-      const { token } = tokenRes.data;
-      
       clientRef.current = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
       
       // Handle remote user joining
@@ -125,8 +117,8 @@ export default function MatchVideoChat() {
         toast.info(`${match?.other_user?.name} left the call`);
       });
       
-      // Join the channel
-      await clientRef.current.join(AGORA_APP_ID, channelName, token, null);
+      // Join the channel (App ID only mode - no token needed)
+      await clientRef.current.join(AGORA_APP_ID, channelName, null, null);
       
       // Create and publish local tracks
       const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
