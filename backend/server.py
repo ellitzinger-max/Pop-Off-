@@ -150,6 +150,7 @@ class UserProfileUpdate(BaseModel):
     city: Optional[str] = None
     state: Optional[str] = None
     age: Optional[int] = None
+    picture: Optional[str] = None
 
 class UserPreferences(BaseModel):
     group_size_min: Optional[int] = 1
@@ -475,11 +476,70 @@ async def update_profile(profile_data: UserProfileUpdate, request: Request):
         update_fields["state"] = profile_data.state
     if profile_data.age is not None:
         update_fields["age"] = profile_data.age
+    if profile_data.picture is not None:
+        update_fields["picture"] = profile_data.picture
     
     if update_fields:
+        update_fields["profile_completed"] = True
         await db.users.update_one({"user_id": user.user_id}, {"$set": update_fields})
     
     return {"message": "Profile updated successfully"}
+
+@api_router.post("/users/pop-off-topic")
+async def set_pop_off_topic(request: Request):
+    """Set the user's current pop-off topic for matching"""
+    user = await get_current_user(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    data = await request.json()
+    topic = data.get("topic", "")
+    
+    await db.users.update_one(
+        {"user_id": user.user_id},
+        {"$set": {
+            "current_pop_off_topic": topic,
+            "pop_off_topic_set_at": datetime.now(timezone.utc)
+        }}
+    )
+    
+    return {"message": "Pop off topic saved", "topic": topic}
+
+@api_router.post("/users/upload-photo")
+async def upload_photo(request: Request):
+    """Upload profile photo - stores as base64 for simplicity"""
+    user = await get_current_user(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    form = await request.form()
+    file = form.get("file")
+    
+    if not file:
+        raise HTTPException(status_code=400, detail="No file provided")
+    
+    # Read file content and convert to base64
+    import base64
+    content = await file.read()
+    
+    # Validate file size (5MB max)
+    if len(content) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File too large (max 5MB)")
+    
+    # Get content type
+    content_type = file.content_type or "image/jpeg"
+    
+    # Convert to base64 data URL
+    base64_content = base64.b64encode(content).decode('utf-8')
+    data_url = f"data:{content_type};base64,{base64_content}"
+    
+    # Update user's picture
+    await db.users.update_one(
+        {"user_id": user.user_id},
+        {"$set": {"picture": data_url}}
+    )
+    
+    return {"url": data_url, "message": "Photo uploaded successfully"}
 
 @api_router.get("/users/interests")
 async def get_interests():

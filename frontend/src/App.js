@@ -17,6 +17,7 @@ import Chat from '@/pages/Chat';
 import BoostSuccess from '@/pages/BoostSuccess';
 import PremiumSuccess from '@/pages/PremiumSuccess';
 import MatchVideoChat from '@/pages/MatchVideoChat';
+import PopOffPrompt from '@/pages/PopOffPrompt';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -35,6 +36,7 @@ function AppRouter() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/trending" element={<ProtectedRoute><TrendingTopics /></ProtectedRoute>} />
         <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
+        <Route path="/pop-off" element={<ProtectedRoute><PopOffPrompt /></ProtectedRoute>} />
         <Route path="/preferences" element={<ProtectedRoute><Preferences /></ProtectedRoute>} />
         <Route path="/social-connections" element={<ProtectedRoute><SocialConnections /></ProtectedRoute>} />
         <Route path="/swipe" element={<ProtectedRoute><SwipeMatch /></ProtectedRoute>} />
