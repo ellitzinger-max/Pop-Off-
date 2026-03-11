@@ -71,8 +71,8 @@ export default function MatchVideoChat() {
     }
 
     try {
-      // Use match_id as the channel name for 1-on-1 calls
-      const channelName = `match_${matchId}`;
+      // Use match_id directly as the channel name for 1-on-1 calls
+      const channelName = matchId;
       
       const tokenRes = await axios.post(
         `${BACKEND_URL}/api/agora/token`,

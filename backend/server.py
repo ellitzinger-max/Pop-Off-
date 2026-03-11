@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import time
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional, Dict, Set
@@ -1608,10 +1609,13 @@ async def generate_agora_token(request: Request):
     
     uid = hash(user.user_id) & 0x7fffffff
     expiration_seconds = 3600
+    current_time = int(time.time())
+    privilege_expired_ts = current_time + expiration_seconds
     
-    from agora_token_builder import Role_Publisher
+    from agora_token_builder import RtcTokenBuilder
+    # Role 1 = Publisher (can publish audio/video)
     token = RtcTokenBuilder.buildTokenWithUid(
-        app_id, app_certificate, channel_name, uid, 1, expiration_seconds
+        app_id, app_certificate, channel_name, uid, 1, privilege_expired_ts
     )
     
     return TokenResponse(token=token, channel_name=channel_name, user_id=user.user_id)
