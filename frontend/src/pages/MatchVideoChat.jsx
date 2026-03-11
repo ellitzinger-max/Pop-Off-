@@ -129,6 +129,17 @@ export default function MatchVideoChat() {
       // Join the channel with token
       await clientRef.current.join(AGORA_APP_ID, channelName, token, null);
       
+      // Set joined state first so the video containers render
+      setJoined(true);
+      
+      // Start call timer
+      callTimerRef.current = setInterval(() => {
+        setCallDuration(prev => prev + 1);
+      }, 1000);
+      
+      // Small delay to ensure DOM is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       // Create and publish local tracks
       try {
         const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
@@ -141,18 +152,11 @@ export default function MatchVideoChat() {
         }
         
         await clientRef.current.publish([audioTrack, videoTrack]);
+        toast.success('Joined video call!');
       } catch (mediaError) {
         console.error('Media device error:', mediaError);
         toast.error('Could not access camera/microphone. Please check permissions.');
       }
-      
-      // Start call timer
-      callTimerRef.current = setInterval(() => {
-        setCallDuration(prev => prev + 1);
-      }, 1000);
-      
-      setJoined(true);
-      toast.success('Joined video call!');
     } catch (error) {
       console.error('Join channel error:', error);
       toast.error('Failed to join video call');

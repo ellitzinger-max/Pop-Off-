@@ -98,6 +98,13 @@ export default function VideoRoom() {
         null
       );
       
+      // Set joined state first so UI updates
+      connectWebSocket();
+      setJoined(true);
+      
+      // Small delay to ensure DOM is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       try {
         const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
         localTracksRef.current = [audioTrack, videoTrack];
@@ -110,14 +117,11 @@ export default function VideoRoom() {
         videoTrack.play('local-player');
         
         await clientRef.current.publish([audioTrack, videoTrack]);
+        toast.success('Joined the room!');
       } catch (mediaError) {
         console.error('Media device error:', mediaError);
         toast.error('Could not access camera/microphone. Please check permissions.');
       }
-      
-      connectWebSocket();
-      setJoined(true);
-      toast.success('Joined the room!');
     } catch (error) {
       console.error('Join channel error:', error);
       toast.error('Failed to join video room');
