@@ -581,7 +581,9 @@ export default function Home() {
                           <SelectItem value="2">2 people (1-on-1)</SelectItem>
                           <SelectItem value="5">5 people</SelectItem>
                           <SelectItem value="10">10 people</SelectItem>
+                          <SelectItem value="15">15 people</SelectItem>
                           <SelectItem value="20">20 people</SelectItem>
+                          <SelectItem value="24">24 people (max)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

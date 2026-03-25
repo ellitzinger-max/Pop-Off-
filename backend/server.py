@@ -189,7 +189,7 @@ class TopicCreate(BaseModel):
     title: str
     category: str
     description: str
-    max_participants: int = 10
+    max_participants: int = 10  # Default 10, max allowed is 24
     is_trending: bool = False
 
 class Topic(BaseModel):
@@ -964,6 +964,11 @@ async def create_topic(topic_data: TopicCreate, request: Request):
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
+    # Validate max_participants (max 24)
+    max_participants = min(topic_data.max_participants, 24)
+    if max_participants < 2:
+        max_participants = 2
+    
     topic_id = f"topic_{uuid.uuid4().hex[:12]}"
     
     topic_doc = {
@@ -973,7 +978,7 @@ async def create_topic(topic_data: TopicCreate, request: Request):
         "description": topic_data.description,
         "creator_id": user.user_id,
         "creator_name": user.name,
-        "max_participants": topic_data.max_participants,
+        "max_participants": max_participants,
         "current_participants": 0,
         "active": True,
         "is_trending": False,
@@ -995,7 +1000,7 @@ async def create_topic(topic_data: TopicCreate, request: Request):
         "description": topic_data.description,
         "creator_id": user.user_id,
         "creator_name": user.name,
-        "max_participants": topic_data.max_participants,
+        "max_participants": max_participants,
         "current_participants": 0,
         "active": True,
         "is_trending": False,
