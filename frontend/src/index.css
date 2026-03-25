@@ -53,10 +53,102 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @layer utilities {
-    /* Electric Violet + Hot Pink + Sunshine Yellow Gradient */
+    /* Base Gradient - Electric Violet + Hot Pink + Sunshine Yellow */
     .gradient-hero {
         background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #FACC15 100%);
     }
+    
+    /* Category-Specific Color Themes */
+    
+    /* Mental Health - Calm Ocean (Teal/Aqua/Coral) */
+    .theme-mental-health {
+        --theme-primary: 173 80% 40%;
+        --theme-secondary: 174 72% 56%;
+        --theme-accent: 16 100% 66%;
+        --theme-gradient: linear-gradient(135deg, #0D9488 0%, #2DD4BF 50%, #F97171 100%);
+        --theme-bg: 173 30% 97%;
+    }
+    .gradient-mental-health {
+        background: linear-gradient(135deg, #0D9488 0%, #2DD4BF 50%, #F97171 100%);
+    }
+    .bg-mental-health { background-color: hsl(173 30% 96%); }
+    .border-mental-health { border-color: #2DD4BF; }
+    .text-mental-health { color: #0D9488; }
+    
+    /* Relationships - Warm & Romantic (Rose/Coral/Peach) */
+    .theme-relationships {
+        --theme-primary: 346 77% 50%;
+        --theme-secondary: 12 76% 61%;
+        --theme-accent: 24 94% 78%;
+        --theme-gradient: linear-gradient(135deg, #E11D48 0%, #F87171 50%, #FBBF7A 100%);
+        --theme-bg: 346 30% 97%;
+    }
+    .gradient-relationships {
+        background: linear-gradient(135deg, #E11D48 0%, #F87171 50%, #FBBF7A 100%);
+    }
+    .bg-relationships { background-color: hsl(346 50% 97%); }
+    .border-relationships { border-color: #F87171; }
+    .text-relationships { color: #E11D48; }
+    
+    /* News & Politics - Professional (Navy/Blue/Silver) */
+    .theme-news {
+        --theme-primary: 221 83% 40%;
+        --theme-secondary: 217 91% 60%;
+        --theme-accent: 215 20% 65%;
+        --theme-gradient: linear-gradient(135deg, #1E40AF 0%, #3B82F6 50%, #94A3B8 100%);
+        --theme-bg: 221 30% 97%;
+    }
+    .gradient-news {
+        background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 50%, #94A3B8 100%);
+    }
+    .bg-news { background-color: hsl(221 30% 97%); }
+    .border-news { border-color: #3B82F6; }
+    .text-news { color: #1E40AF; }
+    
+    /* Entertainment - Fun & Vibrant (Purple/Magenta/Pink) */
+    .theme-entertainment {
+        --theme-primary: 271 81% 56%;
+        --theme-secondary: 292 84% 61%;
+        --theme-accent: 330 81% 60%;
+        --theme-gradient: linear-gradient(135deg, #8B5CF6 0%, #D946EF 50%, #EC4899 100%);
+        --theme-bg: 271 30% 97%;
+    }
+    .gradient-entertainment {
+        background: linear-gradient(135deg, #8B5CF6 0%, #D946EF 50%, #EC4899 100%);
+    }
+    .bg-entertainment { background-color: hsl(271 40% 97%); }
+    .border-entertainment { border-color: #D946EF; }
+    .text-entertainment { color: #8B5CF6; }
+    
+    /* Hobbies - Fresh & Energetic (Green/Lime/Yellow) */
+    .theme-hobbies {
+        --theme-primary: 142 71% 45%;
+        --theme-secondary: 84 81% 44%;
+        --theme-accent: 48 96% 53%;
+        --theme-gradient: linear-gradient(135deg, #22C55E 0%, #84CC16 50%, #EAB308 100%);
+        --theme-bg: 142 30% 97%;
+    }
+    .gradient-hobbies {
+        background: linear-gradient(135deg, #22C55E 0%, #84CC16 50%, #EAB308 100%);
+    }
+    .bg-hobbies { background-color: hsl(142 30% 97%); }
+    .border-hobbies { border-color: #84CC16; }
+    .text-hobbies { color: #22C55E; }
+    
+    /* General Chat - Default (Violet/Pink/Yellow) */
+    .theme-general {
+        --theme-primary: 271 91% 65%;
+        --theme-secondary: 322 93% 58%;
+        --theme-accent: 45 100% 51%;
+        --theme-gradient: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #FACC15 100%);
+        --theme-bg: 280 30% 97%;
+    }
+    .gradient-general {
+        background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #FACC15 100%);
+    }
+    .bg-general { background-color: hsl(280 30% 97%); }
+    .border-general { border-color: #EC4899; }
+    .text-general { color: #8B5CF6; }
     
     .glass-effect {
         background: rgba(255, 255, 255, 0.75);

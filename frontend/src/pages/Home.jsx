@@ -18,13 +18,17 @@ import { SocialShare } from '@/components/SocialShare';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const CATEGORIES = [
-  { id: 'relationships', label: 'Relationships', icon: '❤️' },
-  { id: 'mental-health', label: 'Mental Health', icon: '🧠' },
-  { id: 'news', label: 'News & Politics', icon: '📰' },
-  { id: 'entertainment', label: 'Movies & TV', icon: '🎬' },
-  { id: 'hobbies', label: 'Hobbies', icon: '🎮' },
-  { id: 'general', label: 'General Chat', icon: '💬' },
+  { id: 'relationships', label: 'Relationships', icon: '❤️', gradient: 'gradient-relationships', bg: 'bg-relationships', border: 'border-relationships', text: 'text-relationships', color: '#E11D48' },
+  { id: 'mental-health', label: 'Mental Health', icon: '🧠', gradient: 'gradient-mental-health', bg: 'bg-mental-health', border: 'border-mental-health', text: 'text-mental-health', color: '#0D9488' },
+  { id: 'news', label: 'News & Politics', icon: '📰', gradient: 'gradient-news', bg: 'bg-news', border: 'border-news', text: 'text-news', color: '#1E40AF' },
+  { id: 'entertainment', label: 'Movies & TV', icon: '🎬', gradient: 'gradient-entertainment', bg: 'bg-entertainment', border: 'border-entertainment', text: 'text-entertainment', color: '#8B5CF6' },
+  { id: 'hobbies', label: 'Hobbies', icon: '🎮', gradient: 'gradient-hobbies', bg: 'bg-hobbies', border: 'border-hobbies', text: 'text-hobbies', color: '#22C55E' },
+  { id: 'general', label: 'General Chat', icon: '💬', gradient: 'gradient-general', bg: 'bg-general', border: 'border-general', text: 'text-general', color: '#8B5CF6' },
 ];
+
+const getCategoryTheme = (categoryId) => {
+  return CATEGORIES.find(c => c.id === categoryId) || CATEGORIES.find(c => c.id === 'general');
+};
 
 export default function Home() {
   const navigate = useNavigate();
@@ -437,51 +441,52 @@ export default function Home() {
               </Card>
             ) : (
               <div className="grid gap-4" data-testid="trending-list">
-                {trendingTopics.map((topic, index) => (
-                  <Card 
-                    key={topic.topic_id} 
-                    className={`glass-effect hover-lift cursor-pointer border-2 ${
-                      topic.is_boosted ? 'border-pink-300 bg-gradient-to-r from-pink-50/50 to-violet-50/50' : ''
-                    }`}
-                    onClick={() => navigate(`/room/${topic.topic_id}`)}
-                    data-testid={`trending-topic-${index}`}
-                  >
-                    <CardContent className="p-5">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-2xl font-bold text-pink-500">#{index + 1}</span>
-                            {topic.is_boosted && (
-                              <Badge className="bg-gradient-to-r from-pink-500 to-violet-500 text-white">
-                                <Flame className="w-3 h-3 mr-1" /> Hot
+                {trendingTopics.map((topic, index) => {
+                  const theme = getCategoryTheme(topic.category);
+                  return (
+                    <Card 
+                      key={topic.topic_id} 
+                      className={`glass-effect hover-lift cursor-pointer border-2 ${theme.border} ${theme.bg}`}
+                      onClick={() => navigate(`/room/${topic.topic_id}`)}
+                      data-testid={`trending-topic-${index}`}
+                    >
+                      <CardContent className="p-5">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className={`text-2xl font-bold ${theme.text}`}>#{index + 1}</span>
+                              {topic.is_boosted && (
+                                <Badge className={`${theme.gradient} text-white`}>
+                                  <Flame className="w-3 h-3 mr-1" /> Hot
+                                </Badge>
+                              )}
+                              <Badge className={`${theme.gradient} text-white`}>
+                                {theme.icon} {topic.category}
                               </Badge>
+                            </div>
+                            <h3 className="font-bold text-xl mb-1">{topic.title}</h3>
+                            {topic.description && (
+                              <p className="text-muted-foreground line-clamp-2">{topic.description}</p>
                             )}
-                            <Badge variant="secondary">
-                              {CATEGORIES.find(c => c.id === topic.category)?.icon} {topic.category}
-                            </Badge>
+                            <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
+                              <span className="flex items-center">
+                                <Users className="w-4 h-4 mr-1" />
+                                {topic.current_participants || 0} in room
+                              </span>
+                              <span className="flex items-center">
+                                <MessageSquare className="w-4 h-4 mr-1" />
+                                {topic.creator_name}
+                              </span>
+                            </div>
                           </div>
-                          <h3 className="font-bold text-xl mb-1">{topic.title}</h3>
-                          {topic.description && (
-                            <p className="text-muted-foreground line-clamp-2">{topic.description}</p>
-                          )}
-                          <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-                            <span className="flex items-center">
-                              <Users className="w-4 h-4 mr-1" />
-                              {topic.current_participants || 0} in room
-                            </span>
-                            <span className="flex items-center">
-                              <MessageSquare className="w-4 h-4 mr-1" />
-                              {topic.creator_name}
-                            </span>
-                          </div>
+                          <Button size="lg" className={`${theme.gradient} text-white rounded-full ml-4`}>
+                            Join Now
+                          </Button>
                         </div>
-                        <Button size="lg" className="btn-primary rounded-full ml-4">
-                          Join Now
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </TabsContent>
@@ -548,13 +553,16 @@ export default function Home() {
                             onClick={() => setPostData({...postData, category: cat.id})}
                             className={`p-3 rounded-xl border-2 text-left transition-all ${
                               postData.category === cat.id
-                                ? 'border-pink-500 bg-pink-50'
-                                : 'border-gray-200 hover:border-pink-300'
+                                ? `${cat.border} ${cat.bg}`
+                                : 'border-gray-200 hover:border-gray-300'
                             }`}
+                            style={postData.category === cat.id ? { borderColor: cat.color } : {}}
                             data-testid={`category-${cat.id}`}
                           >
                             <span className="text-xl mr-2">{cat.icon}</span>
-                            <span className="font-medium">{cat.label}</span>
+                            <span className="font-medium" style={postData.category === cat.id ? { color: cat.color } : {}}>
+                              {cat.label}
+                            </span>
                           </button>
                         ))}
                       </div>
@@ -645,54 +653,62 @@ export default function Home() {
                   </Card>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="topics-grid">
-                    {filteredTopics.map((topic, index) => (
-                      <Card 
-                        key={topic.topic_id} 
-                        className={`glass-effect hover-lift cursor-pointer border-2 transition-all ${
-                          topic.is_boosted ? 'border-pink-300' : 'hover:border-primary/50'
-                        }`}
-                        onClick={() => navigate(`/room/${topic.topic_id}`)}
-                        data-testid={`topic-card-${index}`}
-                      >
-                        <CardHeader className="pb-2">
-                          <div className="flex items-center gap-2 mb-1 flex-wrap">
-                            <Badge variant="secondary" className="text-xs">
-                              {CATEGORIES.find(c => c.id === topic.category)?.icon} {topic.category}
-                            </Badge>
-                            {topic.is_boosted && (
-                              <Badge className="bg-gradient-to-r from-pink-500 to-violet-500 text-white text-xs">
-                                <Flame className="w-3 h-3 mr-1" /> Boosted
+                    {filteredTopics.map((topic, index) => {
+                      const theme = getCategoryTheme(topic.category);
+                      return (
+                        <Card 
+                          key={topic.topic_id} 
+                          className={`glass-effect hover-lift cursor-pointer border-2 transition-all ${
+                            topic.is_boosted ? `${theme.border} ${theme.bg}` : `hover:${theme.border}`
+                          }`}
+                          onClick={() => navigate(`/room/${topic.topic_id}`)}
+                          data-testid={`topic-card-${index}`}
+                        >
+                          <CardHeader className="pb-2">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <Badge 
+                                className={`${theme.gradient} text-white text-xs`}
+                              >
+                                {theme.icon} {topic.category}
                               </Badge>
-                            )}
-                          </div>
-                          <CardTitle className="text-lg line-clamp-2">{topic.title}</CardTitle>
-                          {topic.description && (
-                            <CardDescription className="line-clamp-2">{topic.description}</CardDescription>
-                          )}
-                        </CardHeader>
-                        <CardContent className="pt-0">
-                          <div className="flex items-center justify-between text-sm text-muted-foreground">
-                            <div className="flex items-center gap-3">
-                              <span className="flex items-center">
-                                <Users className="w-4 h-4 mr-1" />
-                                {topic.current_participants || 0}/{topic.max_participants}
-                              </span>
-                              <span>{topic.creator_name}</span>
+                              {topic.is_boosted && (
+                                <Badge className="bg-gradient-to-r from-pink-500 to-violet-500 text-white text-xs">
+                                  <Flame className="w-3 h-3 mr-1" /> Boosted
+                                </Badge>
+                              )}
                             </div>
-                          </div>
-                          <div className="flex items-center gap-2 mt-3 pt-3 border-t" onClick={(e) => e.stopPropagation()}>
-                            <SocialShare 
-                              contentType="topic" 
-                              contentId={topic.topic_id} 
-                              title={topic.title}
-                            />
-                            <Button size="sm" className="btn-primary rounded-full ml-auto">
-                              Join
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                            <CardTitle className="text-lg line-clamp-2">{topic.title}</CardTitle>
+                            {topic.description && (
+                              <CardDescription className="line-clamp-2">{topic.description}</CardDescription>
+                            )}
+                          </CardHeader>
+                          <CardContent className="pt-0">
+                            <div className="flex items-center justify-between text-sm text-muted-foreground">
+                              <div className="flex items-center gap-3">
+                                <span className="flex items-center">
+                                  <Users className="w-4 h-4 mr-1" />
+                                  {topic.current_participants || 0}/{topic.max_participants}
+                                </span>
+                                <span>{topic.creator_name}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 mt-3 pt-3 border-t" onClick={(e) => e.stopPropagation()}>
+                              <SocialShare 
+                                contentType="topic" 
+                                contentId={topic.topic_id} 
+                                title={topic.title}
+                              />
+                              <Button 
+                                size="sm" 
+                                className={`${theme.gradient} text-white rounded-full ml-auto`}
+                              >
+                                Join
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
                 )}
               </>
