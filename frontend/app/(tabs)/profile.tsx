@@ -193,6 +193,15 @@ export default function ProfileScreen() {
 
         {/* Actions */}
         <View style={styles.actionsSection}>
+          <TouchableOpacity 
+            style={[styles.actionButton, styles.premiumButton]} 
+            onPress={() => router.push('/premium')}
+          >
+            <Ionicons name="diamond" size={24} color="#FFD700" />
+            <Text style={[styles.actionText, styles.premiumText]}>Premium & Boosts</Text>
+            <Ionicons name="chevron-forward" size={20} color="#FFD700" />
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.actionButton}>
             <Ionicons name="help-circle-outline" size={24} color="#333" />
             <Text style={styles.actionText}>Help & Support</Text>
@@ -417,6 +426,15 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: '#FF4444',
+  },
+  premiumButton: {
+    backgroundColor: '#FFF8E1',
+    borderWidth: 1,
+    borderColor: '#FFD700',
+  },
+  premiumText: {
+    color: '#FF8C00',
+    fontWeight: '600',
   },
   versionText: {
     textAlign: 'center',

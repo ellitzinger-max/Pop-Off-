@@ -106,4 +106,39 @@ export const api = {
     const response = await apiClient.get('/hot');
     return response.data;
   },
+
+  // Payments & Premium
+  getPackages: async () => {
+    const response = await apiClient.get('/packages');
+    return response.data;
+  },
+
+  getMembershipStatus: async () => {
+    const response = await apiClient.get('/membership/status');
+    return response.data;
+  },
+
+  createCheckout: async (packageId: string, packageType: string, originUrl: string) => {
+    const response = await apiClient.post('/checkout/create', {
+      package_id: packageId,
+      package_type: packageType,
+      origin_url: originUrl,
+    });
+    return response.data;
+  },
+
+  getCheckoutStatus: async (sessionId: string) => {
+    const response = await apiClient.get(`/checkout/status/${sessionId}`);
+    return response.data;
+  },
+
+  useBoost: async () => {
+    const response = await apiClient.post('/boost/use');
+    return response.data;
+  },
+
+  getTransactionHistory: async () => {
+    const response = await apiClient.get('/transactions/history');
+    return response.data;
+  },
 };
